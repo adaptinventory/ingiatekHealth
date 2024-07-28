@@ -1,0 +1,4 @@
+flutter_native_splash:
+  android: true
+  color: "#1D4D60"
+  image: "assets/launcher_icon/app_logo.png"
