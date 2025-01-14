@@ -1,0 +1,51 @@
+{
+  "menu": {
+    "dashboard": "Panel",
+    "get_in_touch": "Ponte en contacto",
+    "terms_conditions": "Términos y condiciones",
+    "privacy_policy": "política de privacidad",
+    "cmag": "IngiaTek Health",
+    "touch_point": "IngiaTek Health",
+    "logout": "Finalizar la sesión"
+  },
+  "login": {
+    "continue": "Continuar",
+    "member_id": "ID de miembro:",
+    "contact_admin": "Administrador de contacto",
+    "error": "Por favor ingrese una identificación de paciente válida"
+  },
+  "privacy_policy": {
+    "privacy": "política de privacidad"
+  },
+  "dashboard": {
+    "glucose": "Glucosa",
+    "blood_pressure": "Presión arterial",
+    "scale": "Escala",
+    "pulse_ox": "Legumbres"
+  },
+  "descriptions": {
+    "glucose_sub": "Sistema de monitoreo de glucosa en sangre",
+    "blood_pressure_sub": "Medidor inteligente iBloodPressure",
+    "scale_sub": "Báscula de peso iScale",
+    "pulse_ox_sub": "Oxímetro celular PluseOx (lpm)"
+  },
+  "reading_types": {
+    "pulse": "pulse_ox",
+    "blood_glucose": "blood_glucose",
+    "blood_pressure": "blood_pressure",
+    "weight": "weight"
+  },
+  "detail_widget": {
+    "mmg":"Mmgh sistólico / diastólico",
+    "weight": "Peso en libras",
+    "bo": "oxygène dans le sang",
+    "pulse": "Legumbres",
+    "warning": "Aucune lecture enregistrée pour l'instant !"
+
+  },
+  "verify": {
+    "dob": "Patiente DDN:",
+    "error": "Veuillez saisir une DDN valide",
+    "confirm": "CONFIRMER"
+  }
+}

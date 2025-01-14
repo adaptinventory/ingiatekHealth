@@ -8,6 +8,7 @@ import 'package:touchpointhealth/dashboard/screen/DashBoardScreen.dart';
 
 import '../Utils/AppFonts.dart';
 import '../Utils/AppImages.dart';
+import '../Utils/AppLocalization.dart';
 import '../Utils/ColorUtils.dart';
 import 'model/PatientModel.dart';
 
@@ -26,14 +27,14 @@ class _VerficationScreenState extends State<VerficationScreen> {
   bool loginFail = false;
 
   TextStyle getUnderLineStyle(){
-    return const TextStyle(
+    return TextStyle(
       shadows: [
         Shadow(
             color: ColorUtils.weldonBlue,
             offset: Offset(0, -1))
       ],
       fontFamily: AppFonts.firaSans,
-      fontSize: 10,
+      fontSize: AppFonts.getAdjustedFontSize(context, 10,maxSize: 14),
       height: 1.9,
       fontWeight: FontWeight.w500,
       color: Colors.transparent,
@@ -44,7 +45,7 @@ class _VerficationScreenState extends State<VerficationScreen> {
 
   void logIn() async{
     if(passwordController.text.isEmpty){
-      errorMessage = 'Please enter valid DOB';
+      errorMessage = AppLocalizations.of(context)!.translate('verify.error');
       setState(() {
         loginFail = true;
       });
@@ -63,7 +64,7 @@ class _VerficationScreenState extends State<VerficationScreen> {
         //_rememberMe("", dob, true);
         loggedIn();
       }else{
-        errorMessage = 'Please enter valid DOB';
+        errorMessage = AppLocalizations.of(context)!.translate('verify.error');
         setState(() {
           loginFail = true;
           logingIn = false;
@@ -143,15 +144,15 @@ class _VerficationScreenState extends State<VerficationScreen> {
                   padding: const EdgeInsets.only(left: 30,right: 10),
                   child: Row(
                     children: [
-                      const Padding(
+                      Padding(
                         padding: EdgeInsets.only(top: 2),
-                        child: Text('Patient DOB:',
+                        child: Text(AppLocalizations.of(context)!.translate('verify.dob'),
                           style: TextStyle(
                               color: ColorUtils.weldonBlue,
                               fontFamily: AppFonts.firaSans,
                               fontStyle: FontStyle.normal,
                               fontWeight: FontWeight.w600,
-                              fontSize: 12
+                              fontSize: AppFonts.getAdjustedFontSize(context, 12,maxSize: 16)
                           ),
                         ),
                       ),
@@ -164,20 +165,20 @@ class _VerficationScreenState extends State<VerficationScreen> {
                           cursorHeight: 18,
                           keyboardType: TextInputType.datetime,
                           controller: passwordController,
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: ColorUtils.weldonBlue,
                             fontFamily: AppFonts.firaSans,
-                            fontSize: 12,
+                            fontSize: AppFonts.getAdjustedFontSize(context, 12,maxSize: 16),
                             fontWeight: FontWeight.normal,
                           ),
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                               isDense: true,
                               border: InputBorder.none,
                               hintText: 'yyyy-mm-dd',
                               hintStyle: TextStyle(
                                 color: Colors.grey,
                                 fontFamily: AppFonts.firaSans,
-                                fontSize: 12,
+                                fontSize: AppFonts.getAdjustedFontSize(context, 12,maxSize: 16),
                                 fontWeight: FontWeight.normal,
                               ),
                               contentPadding: EdgeInsets.symmetric(horizontal: 0,vertical: 0)
@@ -216,12 +217,12 @@ class _VerficationScreenState extends State<VerficationScreen> {
               Padding(
                 padding: const EdgeInsets.only(top: 2),
                 child: errorMessage.isNotEmpty ? Text(errorMessage,
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: Colors.redAccent,
                       fontFamily: AppFonts.firaSans,
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.w600,
-                      fontSize: 12
+                      fontSize: AppFonts.getAdjustedFontSize(context, 12,maxSize: 16)
                   ),
                 ) : Container(),
               ),
@@ -244,12 +245,12 @@ class _VerficationScreenState extends State<VerficationScreen> {
                         child: Center(child:
                         logingIn == true ?
                         const CircularProgressIndicator(color: ColorUtils.weldonBlue,) :
-                        const Text("CONFIRM",
+                        Text(AppLocalizations.of(context)!.translate('verify.confirm'),
                             style: TextStyle(
                                 color: Colors.white,
                                 fontFamily: AppFonts.firaSans,
                                 fontStyle: FontStyle.normal,
-                                fontSize: 12
+                                fontSize: AppFonts.getAdjustedFontSize(context, 12,maxSize: 16)
                             )
                         )
                         ),

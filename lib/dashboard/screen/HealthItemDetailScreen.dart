@@ -4,7 +4,6 @@ import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:touchpointhealth/Authentication/model/PatientModel.dart';
 import 'package:touchpointhealth/Utils/AppImages.dart';
-import 'package:touchpointhealth/Utils/AppStrings.dart';
 import 'package:touchpointhealth/Utils/TimeUtil.dart';
 import 'package:touchpointhealth/appbar/SimpleAppBar.dart';
 import 'package:touchpointhealth/appstate/AppState.dart';
@@ -12,6 +11,7 @@ import 'package:touchpointhealth/dashboard/models/ReadingModel.dart';
 import 'package:touchpointhealth/dashboard/service/ReadingService.dart';
 
 import '../../Utils/AppFonts.dart';
+import '../../Utils/AppLocalization.dart';
 import '../../Utils/ColorUtils.dart';
 
 class HealthItemDetailScreen extends StatefulWidget{
@@ -56,15 +56,14 @@ class _HealthItemDetailScreenState extends State<HealthItemDetailScreen> {
     final dataModel = this.dataModel;
     if(dataModel != null){
       if(dataModel.reading.isEmpty){
-        items.add(
-          const Padding(
+        items.add(Padding(
             padding: EdgeInsets.symmetric(vertical: 50),
-            child: Text('No Readings recorded yet!',
+            child: Text(AppLocalizations.of(context)!.translate('detail_widget.warning'),
                 style: TextStyle(
                     color: Colors.black,
                     fontFamily: AppFonts.firaSans,
                     fontWeight: FontWeight.normal,
-                    fontSize: 14
+                    fontSize: AppFonts.getAdjustedFontSize(context, 14,maxSize: 18)
                 )
             ),
           )
@@ -79,15 +78,15 @@ class _HealthItemDetailScreenState extends State<HealthItemDetailScreen> {
               Container(
                 padding: const EdgeInsets.symmetric(
                     vertical: 5, horizontal: 10),
-                decoration: const BoxDecoration(color: ColorUtils.bgColor),
+                decoration: BoxDecoration(color: ColorUtils.bgColor),
                 child: Row(
                   children: [
                     Text(DateFormat('MM-dd-yyyy').format(reading.dateRecorded),
-                        style: const TextStyle(
+                        style: TextStyle(
                             color: Colors.black,
                             fontFamily: AppFonts.firaSans,
                             fontWeight: FontWeight.normal,
-                            fontSize: 14
+                            fontSize: AppFonts.getAdjustedFontSize(context, 14,maxSize: 18)
                         )
                     ),
                   ],
@@ -98,19 +97,19 @@ class _HealthItemDetailScreenState extends State<HealthItemDetailScreen> {
         prevoiusDate = date;
         var localTime  = TimeUtil.convertToLocalTime(reading.dateRecorded, reading.timeZoneOffset);
         String time = DateFormat('hh:mm a').format(localTime);
-        if(widget.itemType == AppStrings.weightReadingType){
-          items.add(ItemDetailWidget(title: 'Weight in Lbs', value: '${reading.weightLbs}',time: time,));
-        }else if(widget.itemType == AppStrings.pulseReadingType){
-          items.add(ItemDetailWidget(title: 'Blood Oxygen', value: '${reading.spo2}',time: time));
-          items.add(ItemDetailWidget(title: 'Pulse', value: '${reading.pulseBpm}',time: time));
-        }else if(widget.itemType == AppStrings.bloodglucoseReadingType){
+        if(widget.itemType == AppLocalizations.of(context)!.translate('reading_types.weight')){
+          items.add(ItemDetailWidget(title: AppLocalizations.of(context)!.translate('detail_widget.weight'), value: '${reading.weightLbs}',time: time,));
+        }else if(widget.itemType == AppLocalizations.of(context)!.translate('reading_types.pulse')){
+          items.add(ItemDetailWidget(title: AppLocalizations.of(context)!.translate('detail_widget.bo'), value: '${reading.spo2}',time: time));
+          items.add(ItemDetailWidget(title: AppLocalizations.of(context)!.translate('detail_widget.pulse'), value: '${reading.pulseBpm}',time: time));
+        }else if(widget.itemType == AppLocalizations.of(context)!.translate('reading_types.blood_glucose')){
           //No Sample data
           //items.add(ItemDetailWidget(title: 'Pulse Low (bpm)', value: '${reading.pulseBpm}'));
           //items.add(ItemDetailWidget(title: 'SPO2', value: '${reading.spo2}'));
-        }else if(widget.itemType == AppStrings.bpReadingType){
-          items.add(ItemDetailWidget(title: 'Systolic / Diastolic mmgh', value: '${reading.systolicMmhg}/${reading.diastolicMmhg}',time: time));
+        }else if(widget.itemType == AppLocalizations.of(context)!.translate('reading_types.blood_pressure')){
+          items.add(ItemDetailWidget(title: AppLocalizations.of(context)!.translate('detail_widget.mmg'), value: '${reading.systolicMmhg}/${reading.diastolicMmhg}',time: time));
           //items.add(ItemDetailWidget(title: 'Systolic mmhg', value: '${reading.systolicMmhg}'));
-          items.add(ItemDetailWidget(title: 'Pulse', value: '${reading.pulseBpm}',time: time,));
+          items.add(ItemDetailWidget(title: AppLocalizations.of(context)!.translate('detail_widget.pulse'), value: '${reading.pulseBpm}',time: time,));
         }
       }
       //items.add(Spacer());
@@ -179,11 +178,11 @@ class ItemTitleWidget extends StatelessWidget{
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(title,
-          style: const TextStyle(
+          style: TextStyle(
               color: Colors.white,
               fontFamily: AppFonts.bwMitga,
               fontWeight: FontWeight.bold,
-              fontSize: 38
+              fontSize: AppFonts.getAdjustedFontSize(context, 38,maxSize: 42)
           ),)
         ],
       ),
@@ -213,11 +212,11 @@ class ItemDetailWidget extends StatelessWidget{
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(time,
-            style: const TextStyle(
+            style: TextStyle(
                 color: ColorUtils.darkGray,
                 fontFamily: AppFonts.firaSans,
                 fontWeight: FontWeight.w400,
-                fontSize: 12,
+                fontSize: AppFonts.getAdjustedFontSize(context, 12,maxSize: 16),
             ),textAlign: TextAlign.left,),
           SizedBox(width: 10,),
           Expanded(
@@ -225,18 +224,18 @@ class ItemDetailWidget extends StatelessWidget{
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(title,
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: ColorUtils.darkGray,
                       fontFamily: AppFonts.firaSans,
                       fontWeight: FontWeight.w600,
-                      fontSize: 16
+                      fontSize: AppFonts.getAdjustedFontSize(context, 16,maxSize: 20)
                   ),textAlign: TextAlign.left,),
                 Text(value,
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: ColorUtils.darkGray,
                       fontFamily: AppFonts.firaSans,
                       fontWeight: FontWeight.w600,
-                      fontSize: 16
+                      fontSize: AppFonts.getAdjustedFontSize(context, 16,maxSize: 20)
                   ),),
               ],
             ),

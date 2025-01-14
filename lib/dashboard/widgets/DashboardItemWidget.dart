@@ -43,18 +43,18 @@ class DashboardItemWidget extends StatelessWidget{
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(title,
-                      style: const TextStyle(
+                      style: TextStyle(
                           color: ColorUtils.sapphireBlue,
                           fontFamily: AppFonts.bwMitga,
                           fontWeight: FontWeight.bold,
-                          fontSize: 20
+                          fontSize: AppFonts.getAdjustedFontSize(context, 20,maxSize: 20)
                       ),),
                     Text(description,
-                      style: const TextStyle(
+                      style: TextStyle(
                           color: ColorUtils.darkGray,
                           fontFamily: AppFonts.firaSans,
                           fontWeight: FontWeight.normal,
-                          fontSize: 15
+                          fontSize: AppFonts.getAdjustedFontSize(context, 15,maxSize: 19)
                       ),
                     ),
                   ],

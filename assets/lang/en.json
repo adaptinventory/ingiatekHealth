@@ -1,0 +1,51 @@
+{
+  "menu": {
+    "dashboard": "Dashboard",
+    "get_in_touch": "Get In Touch",
+    "terms_conditions": "Terms & Conditions",
+    "privacy_policy": "Privacy Policy",
+    "cmag": "IngiaTek Health",
+    "touch_point": "IngiaTek Health",
+    "logout": "Log out"
+  },
+  "login": {
+    "continue": "CONTINUE",
+    "member_id": "Member ID:",
+    "contact_admin": "Contact Administrator",
+    "error": "Please enter valid patient ID"
+  },
+  "privacy_policy": {
+    "privacy": "Privacy Policy"
+  },
+  "dashboard": {
+    "glucose": "Glucose",
+    "blood_pressure": "BloodPressure",
+    "scale": "Scale",
+    "pulse_ox": "PulseOx"
+  },
+  "descriptions": {
+    "glucose_sub": "iGlucose Blood Glucose Monitoring System",
+    "blood_pressure_sub": "Smart Meter iBloodPressure",
+    "scale_sub": "iScale Weight Scale",
+    "pulse_ox_sub": "iPulseOx Cellular Pulse Oximeter (bpm)"
+  },
+  "reading_types": {
+    "pulse": "pulse_ox",
+    "blood_glucose": "blood_glucose",
+    "blood_pressure": "blood_pressure",
+    "weight": "weight"
+  },
+  "detail_widget": {
+    "mmg":"Systolic / Diastolic mmgh",
+    "weight": "Weight in Lbs",
+    "bo": "Blood Oxygen",
+    "pulse": "Pulse",
+    "warning": "No Readings recorded yet!"
+
+  },
+  "verify": {
+    "dob": "Patient DOB:",
+    "error": "Please enter valid DOB",
+    "confirm": "CONFIRM"
+  }
+}

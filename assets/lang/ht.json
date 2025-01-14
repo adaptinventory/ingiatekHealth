@@ -1,0 +1,50 @@
+{
+  "menu": {
+    "dashboard": "Dach",
+    "get_in_touch": "Pran Kontak",
+    "terms_conditions": "Tèm ak Kondisyon yo",
+    "privacy_policy": "Règleman sou enfòmasyon prive",
+    "cmag": "IngiaTek Health",
+    "touch_point": "IngiaTek Health",
+    "logout": "Dekonekte"
+  },
+  "login": {
+    "continue": "Kontinye",
+    "member_id": "ID manm:",
+    "contact_admin": "Kontakte Administratè",
+    "error": "Tanpri antre ID pasyan ki valab"
+  },
+  "privacy_policy": {
+    "privacy": "Règleman sou enfòmasyon prive"
+  },
+  "dashboard": {
+    "glucose": "Glikoz",
+    "blood_pressure": "Tansyon",
+    "scale": "Echèl",
+    "pulse_ox": "Batman kè"
+  },
+  "descriptions": {
+    "glucose_sub": "Sistèm siveyans glikoz nan san",
+    "blood_pressure_sub": "Smart Meter iBlood Pression",
+    "scale_sub": "iScale echèl pwa",
+    "pulse_ox_sub": "iPluseOx Cellular Pluse Oximeter (bpm)"
+  },
+  "reading_types": {
+    "pulse": "pulse_ox",
+    "blood_glucose": "blood_glucose",
+    "blood_pressure": "blood_pressure",
+    "weight": "weight"
+  },
+  "detail_widget": {
+    "mmg":"Sistolik / Diastolik mmgh",
+    "weight": "Pwa nan Lbs",
+    "bo": "oksijèn nan san",
+    "pulse": "Batman kè",
+    "warning": "Pa gen lekti anrejistre ankò!"
+  },
+  "verify": {
+    "dob": "pasyan DN:",
+    "error": "Tanpri antre DN valab",
+    "confirm": "KONFIME"
+  }
+}

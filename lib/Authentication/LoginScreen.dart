@@ -1,17 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:touchpointhealth/Authentication/model/JWTTokenModel.dart';
 import 'package:touchpointhealth/Authentication/model/PatientModel.dart';
 import 'package:touchpointhealth/Authentication/service/LoginService.dart';
 import 'package:touchpointhealth/Utils/AppFonts.dart';
 import 'package:touchpointhealth/Utils/AppImages.dart';
+import 'package:touchpointhealth/Utils/AppLocalization.dart';
 import 'package:touchpointhealth/Utils/ColorUtils.dart';
 import 'package:touchpointhealth/appstate/AppState.dart';
 import 'package:touchpointhealth/dashboard/screen/DashBoardScreen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../main.dart';
 import 'VerficationScreen.dart';
 
 class LoginPasswordScreen extends StatefulWidget{
@@ -31,8 +34,10 @@ class _LoginPasswordScreenState extends State<LoginPasswordScreen> {
   bool isPreviousLogin = false;
 
   String dropdownValue = "No Provider";
-  
+  String selectedLang  = "English";
+
   List<String> list =["No Provider","Evexia Weight loss & Wellness"];
+  List<String>  langList = ['English','Spanish','Haitian Creole'];
 
   @override
   void initState() {
@@ -43,14 +48,14 @@ class _LoginPasswordScreenState extends State<LoginPasswordScreen> {
   }
 
   TextStyle getUnderLineStyle(){
-    return const TextStyle(
+    return TextStyle(
         shadows: [
           Shadow(
               color: ColorUtils.weldonBlue,
               offset: Offset(0, -1))
         ],
         fontFamily: AppFonts.firaSans,
-        fontSize: 10,
+        fontSize: AppFonts.getAdjustedFontSize(context, 10,maxSize: 14),
         height: 1.9,
         fontWeight: FontWeight.w500,
         color: Colors.transparent,
@@ -62,7 +67,7 @@ class _LoginPasswordScreenState extends State<LoginPasswordScreen> {
   void logIn(String patientId) async{
     if(patientId.isEmpty){
 
-      errorMessage = 'Please enter valid patient ID';
+      errorMessage = AppLocalizations.of(context)!.translate('login.error');
       setState(() {
         loginFail = true;
         logingIn =  false;
@@ -92,7 +97,7 @@ class _LoginPasswordScreenState extends State<LoginPasswordScreen> {
         loggedIn();
       }else{
         //No Patient info, must be some error
-        errorMessage = 'Please enter valid patient ID';
+        errorMessage = AppLocalizations.of(context)!.translate('login.error');
         setState(() {
           loginFail = true;
           logingIn = false;
@@ -271,15 +276,15 @@ class _LoginPasswordScreenState extends State<LoginPasswordScreen> {
                   padding: const EdgeInsets.only(left: 30,right: 10),
                   child: Row(
                     children: [
-                      const Padding(
+                      Padding(
                         padding: EdgeInsets.only(top: 2),
-                        child: Text('Member ID:',
+                        child: Text(AppLocalizations.of(context)!.translate('login.member_id'),
                           style: TextStyle(
                               color: ColorUtils.weldonBlue,
                               fontFamily: AppFonts.firaSans,
                               fontStyle: FontStyle.normal,
                               fontWeight: FontWeight.w600,
-                              fontSize: 12
+                              fontSize: AppFonts.getAdjustedFontSize(context, 12,maxSize: 16)
                           ),
                         ),
                       ),
@@ -292,10 +297,10 @@ class _LoginPasswordScreenState extends State<LoginPasswordScreen> {
                           cursorHeight: 18,
                           keyboardType: TextInputType.number,
                           controller: passwordController,
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: ColorUtils.weldonBlue,
                             fontFamily: AppFonts.firaSans,
-                            fontSize: 12,
+                            fontSize: AppFonts.getAdjustedFontSize(context, 12,maxSize: 16),
                             fontWeight: FontWeight.normal,
                           ),
                           decoration: const InputDecoration(
@@ -325,12 +330,12 @@ class _LoginPasswordScreenState extends State<LoginPasswordScreen> {
               Padding(
                 padding: const EdgeInsets.only(top: 2),
                 child: errorMessage.isNotEmpty ? Text(errorMessage,
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: Colors.redAccent,
                       fontFamily: AppFonts.firaSans,
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.w600,
-                      fontSize: 12
+                      fontSize: AppFonts.getAdjustedFontSize(context, 12,maxSize: 16)
                   ),
                 ) : Container(),
               ),
@@ -353,12 +358,12 @@ class _LoginPasswordScreenState extends State<LoginPasswordScreen> {
                         child: Center(child:
                         logingIn == true ?
                         const CircularProgressIndicator(color: ColorUtils.weldonBlue,) :
-                        const Text("CONTINUE",
+                        Text(AppLocalizations.of(context)!.translate('login.continue'),
                           style: TextStyle(
                               color: Colors.white,
                               fontFamily: AppFonts.firaSans,
                               fontStyle: FontStyle.normal,
-                              fontSize: 12
+                              fontSize: AppFonts.getAdjustedFontSize(context, 12,maxSize: 16)
                           )
                         )
                         ),
@@ -372,7 +377,7 @@ class _LoginPasswordScreenState extends State<LoginPasswordScreen> {
                 text: TextSpan(
                   children: <TextSpan>[
                     TextSpan(
-                      text: 'Contact Administrator',
+                      text: '',
                       style: getUnderLineStyle(),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
@@ -383,7 +388,9 @@ class _LoginPasswordScreenState extends State<LoginPasswordScreen> {
                     ),
                   ],
                 ),
-              )
+              ),
+              const SelectLanguage(),
+              const SizedBox(height: 50,),
             ],
           ),
         ),
@@ -392,4 +399,240 @@ class _LoginPasswordScreenState extends State<LoginPasswordScreen> {
   }
 
 
+}
+
+class SelectLanguage extends StatefulWidget {
+  final bool isSimple; // Flag to toggle between complex and simple UI
+
+  const SelectLanguage({super.key, this.isSimple = false});
+
+  @override
+  State<SelectLanguage> createState() => _SelectLanguageState();
+}
+
+class _SelectLanguageState extends State<SelectLanguage> {
+  String selectedLang = "";
+  List<String> langList = ['English', 'Spanish', 'Haitian Creole'];
+  String errorMessage = '';
+
+  String getSelectedLanguage(BuildContext context){
+    selectedLang = "";
+    // Access the current locale from the LocaleProvider
+    final currentLocale = Provider.of<LocaleProvider>(context).locale;
+    if(currentLocale.languageCode == 'es'){
+      selectedLang = langList[1];
+    }else if(currentLocale.languageCode == 'ht'){
+      selectedLang = langList[2];
+    }else{
+      selectedLang = "English";
+    }
+    return selectedLang;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var lang = getSelectedLanguage(context);
+    return widget.isSimple ? _buildSimpleUI() : _buildComplexUI();
+  }
+
+  // Complex UI (current design)
+  Widget _buildComplexUI() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 40),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: const BorderRadius.all(Radius.circular(25)),
+          border: Border.all(color: ColorUtils.sapphireBlue, width: 2),
+        ),
+        height: 50,
+        padding: const EdgeInsets.only(left: 30, right: 0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(top: 2),
+              child: Text(
+                'Select Language:',
+                style: TextStyle(
+                  color: ColorUtils.weldonBlue,
+                  fontFamily: AppFonts.firaSans,
+                  fontStyle: FontStyle.normal,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 12,
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 150,
+              child: DropdownButtonFormField<String>(
+                value: selectedLang,
+                isDense: true,
+                isExpanded: true,
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.transparent, width: 2.0),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.transparent, width: 2.0),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+                onChanged: (String? value) {
+                  setState(() {
+                    selectedLang = value!;
+                    errorMessage = '';
+                    var lang = 'en';
+                    if (selectedLang == 'Spanish') {
+                      lang = 'es';
+                    } else if (selectedLang == 'Haitian Creole') {
+                      lang = 'ht';
+                    }
+                    Provider.of<LocaleProvider>(context, listen: false).setLocale(Locale(lang));
+                  });
+                },
+                items: langList.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(
+                      value,
+                      style: const TextStyle(
+                        color: ColorUtils.weldonBlue,
+                        fontFamily: AppFonts.firaSans,
+                        fontSize: 12,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  );
+                }).toList(),
+                selectedItemBuilder: (BuildContext context) {
+                  return langList.map<Widget>((String value) {
+                    return Text(
+                      selectedLang,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: const TextStyle(
+                        color: ColorUtils.weldonBlue,
+                        fontFamily: AppFonts.firaSans,
+                        fontSize: 12,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    );
+                  }).toList();
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Simple UI (text with arrow)
+  Widget _buildSimpleUI() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 40),
+      child: Container(
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(25)),
+        ),
+        height: 50,
+        padding: const EdgeInsets.only(left: 30, right: 0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(top: 2),
+              child: Text(
+                'Select Language:',
+                style: TextStyle(
+                  color: ColorUtils.weldonBlue,
+                  fontFamily: AppFonts.firaSans,
+                  fontStyle: FontStyle.normal,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 12,
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 150,
+              child: DropdownButtonFormField<String>(
+                value: selectedLang,
+                isDense: true,
+                isExpanded: true,
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.transparent, width: 2.0),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.transparent, width: 2.0),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+                onChanged: (String? value) {
+                  setState(() {
+                    selectedLang = value!;
+                    errorMessage = '';
+                    var lang = 'en';
+                    if (selectedLang == 'Spanish') {
+                      lang = 'es';
+                    } else if (selectedLang == 'Haitian Creole') {
+                      lang = 'ht';
+                    }
+                    Provider.of<LocaleProvider>(context, listen: false).setLocale(Locale(lang));
+                  });
+                },
+                items: langList.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(
+                      value,
+                      style: const TextStyle(
+                        color: ColorUtils.weldonBlue,
+                        fontFamily: AppFonts.firaSans,
+                        fontSize: 12,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  );
+                }).toList(),
+                selectedItemBuilder: (BuildContext context) {
+                  return langList.map<Widget>((String value) {
+                    return Text(
+                      selectedLang,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: const TextStyle(
+                        color: ColorUtils.weldonBlue,
+                        fontFamily: AppFonts.firaSans,
+                        fontSize: 12,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    );
+                  }).toList();
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
