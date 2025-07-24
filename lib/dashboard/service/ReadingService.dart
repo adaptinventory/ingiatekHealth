@@ -10,8 +10,8 @@ class ReadingService {
   Future<ReadingModel?> getReading(int memberId,String dateStart,String dateEnd,String ingestdateStart,String ingestDateEnd,List<String> deviceIds,List<String> readingTypes) async {
     var endPoint  = ServiceEndPoints.readings;
     var body = jsonEncode({
-      /*"date_end" : dateEnd,
-      "date_start" : dateStart,*/
+      "date_end" : dateEnd,
+      "date_start" : dateStart,
       "patient_id" : memberId,
       "device_ids" : deviceIds,
       /*"ingest_date_end" : ingestdateStart,
