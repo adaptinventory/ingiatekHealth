@@ -12,12 +12,13 @@ class ReadingService {
     var body = jsonEncode({
       "date_end" : dateEnd,
       "date_start" : dateStart,
-      "patient_id" : memberId,
-      "device_ids" : deviceIds,
+      "patient_id" : memberId
+      // "device_ids" : deviceIds,
       /*"ingest_date_end" : ingestdateStart,
       "ingest_date_start" : ingestDateEnd,*/
-      "reading_type" : readingTypes,
+      // "reading_type" : readingTypes,
     });
+    print(body);
     final jsonPayload = await ApiManager().post(
       endPoint,body);
     BaseAPIModel baseResponse = BaseAPIModel.fromJson(jsonPayload['status']);

@@ -43,6 +43,7 @@ class _MenuScreenState extends State<MenuScreen> {
     appState.patient  = null;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove('username');
+    Navigator.pop(context);
     Navigator.pushReplacement(context,
         MaterialPageRoute(
           builder: (context) => const LoginPasswordScreen(),

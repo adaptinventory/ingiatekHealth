@@ -10,6 +10,7 @@ import '../Utils/AppFonts.dart';
 import '../Utils/AppImages.dart';
 import '../Utils/AppLocalization.dart';
 import '../Utils/ColorUtils.dart';
+import 'LoginScreen.dart';
 import 'model/PatientModel.dart';
 
 class VerficationScreen  extends StatefulWidget {
@@ -256,7 +257,42 @@ class _VerficationScreenState extends State<VerficationScreen> {
                         ),
                       ),
                     ),
-
+                    SizedBox(height: 40,),
+                    GestureDetector(
+                      onTap: () async {
+                          AppState appState  = AppState();
+                          appState.jwtTokenModel = null;
+                          appState.patient  = null;
+                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                          await prefs.remove('username');
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(
+                                builder: (context) => const LoginPasswordScreen(),
+                              )
+                          );
+                      },
+                      child: Container(
+                        decoration: const BoxDecoration(
+                            color: ColorUtils.sapphireBlue,
+                            borderRadius: BorderRadius.all(Radius.circular(25))
+                        ),
+                        height: 50,
+                        width: deviceSize.width - 200,
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Center(child:
+                        logingIn == true ?
+                        const CircularProgressIndicator(color: ColorUtils.weldonBlue,) :
+                        Text("GO BACK",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: AppFonts.firaSans,
+                                fontStyle: FontStyle.normal,
+                                fontSize: AppFonts.getAdjustedFontSize(context, 12,maxSize: 16)
+                            )
+                        )
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),

@@ -39,10 +39,10 @@ class _HealthItemDetailScreenState extends State<HealthItemDetailScreen> {
   void fetchReadings() async{
     ReadingService service = ReadingService();
     PatientModel? patient =  AppState().patient;
-    DateTime now = DateTime.now();
-    String startDate = DateFormat('yyyy-MM-dd').format(now.toUtc());
-    String endDate = DateFormat('yyyy-MM-dd').format(now.toUtc().subtract(const Duration(days: 30)));
-    ReadingModel? model = await service.getReading(patient?.patientId ?? 0,endDate, startDate, '', '', [], [widget.itemType]);
+    DateTime nowUTC = DateTime.now().toUtc();
+    String endDate = nowUTC.toIso8601String();
+    String startDate = nowUTC.subtract(const Duration(days: 30)).toIso8601String();
+    ReadingModel? model = await service.getReading(patient?.patientId ?? 0, startDate,endDate, '', '', [], [widget.itemType]);
     if(model != null){
       dataModel = model;
       setState(() {
