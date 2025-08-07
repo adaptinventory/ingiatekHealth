@@ -161,7 +161,7 @@ class _MenuScreenState extends State<MenuScreen> {
                   ),
                 ),
               ),
-              const SelectLanguage(isSimple: true,)
+              // const SelectLanguage(isSimple: true,)
             ],
           ),
         ),
