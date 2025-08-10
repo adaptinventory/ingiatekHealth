@@ -389,7 +389,7 @@ class _LoginPasswordScreenState extends State<LoginPasswordScreen> {
                   ],
                 ),
               ),
-              const SelectLanguage(),
+              // const SelectLanguage(),
               const SizedBox(height: 50,),
             ],
           ),
